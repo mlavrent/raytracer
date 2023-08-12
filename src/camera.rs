@@ -1,7 +1,7 @@
-use nalgebra::{Vector3, DMatrix};
+use nalgebra::{Vector3, Vector2};
 
 use crate::raytracer::ray::Ray;
-use crate::utils::Position;
+use crate::utils::{Position, UVCoords};
 use crate::shapes::rectangle::Rectangle;
 
 pub struct Camera {
@@ -21,7 +21,15 @@ impl Camera {
 
   pub fn pixel_height(&self) -> u32 { (self.viewport_height() * self.pixel_density) as u32 }
 
-  pub fn pixel_points(&self) -> DMatrix<Position> { todo!() }
+  pub fn get_pixel_ray(&self, pixel_coords: Vector2<u32>) -> Ray {
+    let uv_coords: UVCoords = pixel_coords * self.pixel_density;
+    let pixel_position: Position = self.viewport.position_from_uv_coords(uv_coords);
 
-  pub fn pixel_to_ray(&self, pixel: Position) -> Ray { Ray::new(self.eye_position, pixel - self.eye_position) }
+    Ray {
+      origin: self.eye_position,
+      direction: pixel_position - self.eye_position
+    }
+  }
+
+  pub fn point_to_ray(&self, pixel: Position) -> Ray { Ray::new(self.eye_position, pixel - self.eye_position) }
 }

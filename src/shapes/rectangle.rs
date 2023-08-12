@@ -1,6 +1,6 @@
 use nalgebra::Vector3;
 
-use crate::utils::Position;
+use crate::utils::{Position, UVCoords};
 
 
 pub struct Rectangle {
@@ -21,4 +21,8 @@ impl Rectangle {
   pub fn height(&self) -> f64 { self.left_edge.norm() }
 
   pub fn center(&self) -> Position { self.top_left + self.top_edge.scale(0.5) + self.left_edge.scale(0.5) }
+
+  pub fn position_from_uv_coords(&self, uv_coords: UVCoords) -> Position {
+    self.top_left + (self.top_edge * uv_coords.index(0)) + (self.left_edge * uv_coords.index(1))
+  }
 }
