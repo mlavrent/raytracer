@@ -4,6 +4,6 @@ pub mod sphere;
 pub mod rectangle;
 
 pub struct RenderableShape<S> {
-  shape: S,
-  material: Material,
+  pub shape: S,
+  pub material: Material,
 }

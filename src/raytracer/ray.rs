@@ -9,8 +9,8 @@ pub struct Ray {
 impl Ray {
   pub fn new(origin: Position, direction: Vector3<f64>) -> Ray {
     Ray {
-        origin,
-        direction: Unit::new_normalize(direction),
+      origin,
+      direction: Unit::new_normalize(direction),
     }
   }
 }
