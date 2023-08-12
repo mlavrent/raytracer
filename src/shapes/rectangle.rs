@@ -23,6 +23,6 @@ impl Rectangle {
   pub fn center(&self) -> Position { self.top_left + self.top_edge.scale(0.5) + self.left_edge.scale(0.5) }
 
   pub fn position_from_uv_coords(&self, uv_coords: UVCoords) -> Position {
-    self.top_left + (self.top_edge * uv_coords.index(0)) + (self.left_edge * uv_coords.index(1))
+    self.top_left + (self.top_edge * *uv_coords.index(0)) + (self.left_edge * *uv_coords.index(1))
   }
 }

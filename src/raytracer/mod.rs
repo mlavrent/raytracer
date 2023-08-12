@@ -14,5 +14,5 @@ pub fn render_scene(scene: Scene) -> RgbImage {
 
 pub fn get_ray_color(ray: Ray, _: &Scene) -> Color {
   // just return the z-height of the ray as red, this should result in a gradient
-  Rgb([*ray.direction.into_inner().index((0, 1)), 0.0, 0.0])
+  Rgb([*ray.direction.into_inner().index(0), 0.0, 0.0])
 }
