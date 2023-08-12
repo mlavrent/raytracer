@@ -1,9 +1,10 @@
 use camera::Camera;
+use image::Rgb;
 use materials::Material;
-use nalgebra::{vector, DMatrix};
+use nalgebra::vector;
 use raytracer::{render_scene, scene::Scene};
 use shapes::{sphere::Sphere, rectangle::Rectangle, RenderableShape};
-use utils::{Color, export_to_file};
+use utils::export_to_file;
 
 mod shapes;
 mod materials;
@@ -17,7 +18,7 @@ fn main() {
       center: vector![0f64, 0f64, 0f64],
       radius: 2.5,
     },
-    material: Material { color: vector![0.5, 0.4, 0.7] }
+    material: Material { color: Rgb([1.0, 0.0, 0.0]) }
   };
 
   let camera = Camera {
@@ -31,6 +32,6 @@ fn main() {
   };
 
   let scene = Scene { camera, shapes: vec![red_sphere]};
-  let image: DMatrix<Color> = render_scene(scene);
-  export_to_file(image);
+  let image = render_scene(scene);
+  export_to_file("render.png", image);
 }
