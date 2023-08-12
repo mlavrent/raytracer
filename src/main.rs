@@ -1,6 +1,7 @@
 use camera::Camera;
 use materials::Material;
 use nalgebra::vector;
+use raytracer::render_scene;
 use shapes::{sphere::Sphere, rectangle::Rectangle, RenderableShape};
 
 mod shapes;
@@ -19,11 +20,14 @@ fn main() {
   };
 
   let camera = Camera {
-    eye_position: vector![],
+    eye_position: vector![0.0, 0.0, 0.0],
     viewport: Rectangle {
-      top_left: vector![],
-      top_edge: vector![],
-      left_edge: vector![],
-    }
+      top_left: vector![-2.0, 3.0, 1.5],
+      top_edge: vector![4.0, 0.0, 0.0],
+      left_edge: vector![0.0, 0.0, -3.0],
+    },
+    pixel_density: 600.0,
   };
+
+  let image = render_scene(camera, vec![red_sphere]);
 }
