@@ -20,5 +20,5 @@ impl Rectangle {
 
   pub fn height(&self) -> f64 { self.left_edge.norm() }
 
-  pub fn center(&self) -> Position {}
+  pub fn center(&self) -> Position { self.top_left + self.top_edge.scale(0.5) + self.left_edge.scale(0.5) }
 }
