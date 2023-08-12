@@ -27,7 +27,7 @@ fn main() {
       top_edge: vector![4.0, 0.0, 0.0],
       left_edge: vector![0.0, 0.0, -2.0],
     },
-    pixel_density: 1.0,
+    pixel_density: 60.0,
   };
 
   let scene = Scene { camera, shapes: vec![red_sphere]};
