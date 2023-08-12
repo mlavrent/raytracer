@@ -1,8 +1,9 @@
 use camera::Camera;
 use materials::Material;
-use nalgebra::vector;
-use raytracer::render_scene;
+use nalgebra::{vector, DMatrix};
+use raytracer::{render_scene, scene::Scene};
 use shapes::{sphere::Sphere, rectangle::Rectangle, RenderableShape};
+use utils::{Color, export_to_file};
 
 mod shapes;
 mod materials;
@@ -29,5 +30,7 @@ fn main() {
     pixel_density: 600.0,
   };
 
-  let image = render_scene(camera, vec![red_sphere]);
+  let scene = Scene { camera, shapes: vec![red_sphere]};
+  let image: DMatrix<Color> = render_scene(scene);
+  export_to_file(image);
 }

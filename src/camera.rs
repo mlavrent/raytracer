@@ -1,4 +1,4 @@
-use nalgebra::Vector3;
+use nalgebra::{Vector3, DMatrix};
 
 use crate::raytracer::ray::Ray;
 use crate::utils::Position;
@@ -19,12 +19,9 @@ impl Camera {
 
   pub fn pixel_width(&self) -> u32 { (self.viewport_width() * self.pixel_density) as u32 }
 
-  pub fn pixel_heigh(&self) -> u32 { (self.viewport_height() * self.pixel_density) as u32 }
+  pub fn pixel_height(&self) -> u32 { (self.viewport_height() * self.pixel_density) as u32 }
 
-  pub fn pixel_points(&self) -> Vec<Position> { todo!() }
+  pub fn pixel_points(&self) -> DMatrix<Position> { todo!() }
 
-  pub fn pixel_rays(&self) -> Vec<Ray> {
-    self.pixel_points().iter().map(|&position|
-      Ray::new(self.eye_position, position - self.eye_position)).collect()
-  }
+  pub fn pixel_to_ray(&self, pixel: Position) -> Ray { Ray::new(self.eye_position, pixel - self.eye_position) }
 }

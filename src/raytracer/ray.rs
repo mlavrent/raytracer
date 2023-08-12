@@ -2,8 +2,8 @@ use nalgebra::{Vector3, UnitVector3, Unit};
 use crate::utils::Position;
 
 pub struct Ray {
-  origin: Position,
-  direction: UnitVector3<f64>,
+  pub origin: Position,
+  pub direction: UnitVector3<f64>,
 }
 
 impl Ray {
