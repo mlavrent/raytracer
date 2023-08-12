@@ -30,6 +30,4 @@ impl Camera {
       direction: pixel_position - self.eye_position
     }
   }
-
-  pub fn point_to_ray(&self, pixel: Position) -> Ray { Ray::new(self.eye_position, pixel - self.eye_position) }
 }
