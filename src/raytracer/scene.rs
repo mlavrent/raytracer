@@ -4,5 +4,5 @@ use crate::shapes::RenderableShape;
 
 pub struct Scene {
   pub camera: Camera,
-  pub shapes: Vec<RenderableShape<Sphere>>,
+  pub sphere: RenderableShape<Sphere>,
 }
