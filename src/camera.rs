@@ -1,4 +1,6 @@
-use nalgebra::{Vector3, Vector2};
+use std::array;
+
+use nalgebra::{Vector3, Vector2, vector};
 
 use crate::raytracer::ray::Ray;
 use crate::utils::Position;
@@ -29,6 +31,11 @@ impl Camera {
   }
 
   pub fn get_pixel_rays<const N: usize>(&self, pixel_coords: Vector2<u32>) -> [Ray; N] {
-    todo!()
+    array::from_fn(|_| {
+      let offset: Vector2<f64> = (pixel_coords.cast() + vector![rand::random(), rand::random()]) / self.pixel_density;
+      let pixel_position: Position = self.viewport.position_from_offset(offset);
+
+      Ray::new(self.eye_position, pixel_position - self.eye_position)
+    })
   }
 }

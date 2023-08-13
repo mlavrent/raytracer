@@ -4,7 +4,7 @@ use nalgebra::vector;
 use crate::NUM_RAYS_PER_PIXEL;
 use crate::camera::Camera;
 use crate::shapes::RenderableShape;
-use crate::utils::{Color, color_to_eight_bit, average_color};
+use crate::utils::{Color, color_to_eight_bit, average};
 use super::ray::Ray;
 
 pub struct Scene {
@@ -19,7 +19,7 @@ impl Scene {
         let rays: [Ray; NUM_RAYS_PER_PIXEL] = self.camera.get_pixel_rays(vector![pixel_x, pixel_y]);
         let ray_colors = rays.map(|r| self.get_ray_color(&r));
 
-        let average_color = average_color(&ray_colors);
+        let average_color = average(&ray_colors).unwrap_or(vector![0.0, 0.0, 0.0]);
         color_to_eight_bit(average_color)
       })
   }
@@ -29,10 +29,10 @@ impl Scene {
     let nearest_hit = all_hits.min_by(|h1, h2| h1.1.distance_to_hit.total_cmp(&h2.1.distance_to_hit));
 
     match nearest_hit {
-      None => Rgb([0.0, 0.0, 0.0]),
+      None => vector![0.0, 0.0, 0.0],
       Some((_, hit_info)) => {
         // TODO: more interesting stuff will go in here
-        Rgb([(1.0 + hit_info.hit_normal.direction.z) / 2.0, 0.0, 0.0])
+        vector![(1.0 + hit_info.hit_normal.direction.z) / 2.0, 0.0, 0.0]
       },
     }
   }

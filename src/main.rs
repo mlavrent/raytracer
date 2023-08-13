@@ -20,7 +20,7 @@ fn main() {
       center: vector![0.0, 5.0, 0.0],
       radius: 2.5,
     }),
-    material: Material { color: Rgb([1.0, 0.0, 0.0]) }
+    material: Material { color: vector![1.0, 0.0, 0.0] }
   };
 
   let camera = Camera {
