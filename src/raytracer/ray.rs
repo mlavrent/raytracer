@@ -13,4 +13,8 @@ impl Ray {
       direction: Unit::new_normalize(direction),
     }
   }
+
+  pub fn at_distance(&self, distance: f64) -> Position {
+    self.origin + (self.direction.into_inner() * distance)
+  }
 }
