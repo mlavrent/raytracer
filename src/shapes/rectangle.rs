@@ -1,6 +1,6 @@
 use nalgebra::{Vector3, Vector2, vector};
 use crate::{utils::Position, raytracer::ray::Ray};
-use super::Hittable;
+use super::{Hittable, HitInfo};
 
 
 pub struct Rectangle {
@@ -32,7 +32,7 @@ impl Rectangle {
 }
 
 impl Hittable for Rectangle {
-  fn ray_hits(&self, ray: &crate::raytracer::ray::Ray) -> Option<Ray> {
+  fn ray_hits(&self, ray: &crate::raytracer::ray::Ray) -> Option<HitInfo> {
     todo!()
   }
 }

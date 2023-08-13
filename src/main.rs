@@ -13,10 +13,10 @@ mod camera;
 
 fn main() {
   let red_sphere = RenderableShape {
-    shape: Sphere {
+    shape: Box::new(Sphere {
       center: vector![0.0, 5.0, 0.0],
       radius: 2.5,
-    },
+    }),
     material: Material { color: Rgb([1.0, 0.0, 0.0]) }
   };
 
@@ -30,7 +30,7 @@ fn main() {
     pixel_density: 120.0,
   };
 
-  let scene = Scene { camera, shapes: vec![&red_sphere] };
+  let scene = Scene { camera, objects: vec![red_sphere] };
   let image = render_scene(&scene);
   image.save("results.png").expect("Failed to export image.");
 }

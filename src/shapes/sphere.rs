@@ -1,5 +1,5 @@
 use crate::{utils::Position, raytracer::ray::Ray};
-use super::Hittable;
+use super::{Hittable, HitInfo};
 
 pub struct Sphere {
   pub center: Position,
@@ -7,7 +7,7 @@ pub struct Sphere {
 }
 
 impl Hittable for Sphere {
-  fn ray_hits(&self, ray: &crate::raytracer::ray::Ray) -> Option<Ray> {
+  fn ray_hits(&self, ray: &crate::raytracer::ray::Ray) -> Option<HitInfo> {
     let center_to_ray_origin = ray.origin - self.center;
 
     // solve the quadratic equation
@@ -31,7 +31,11 @@ impl Hittable for Sphere {
       first_hit_distance.map(|min_distance| {
         let hit_position = ray.at_distance(min_distance);
         let surface_normal = hit_position - self.center;
-        Ray::new(hit_position, surface_normal)
+
+        HitInfo {
+          hit_normal: Ray::new(hit_position, surface_normal),
+          distance_to_hit: min_distance
+        }
       })
     }
   }
