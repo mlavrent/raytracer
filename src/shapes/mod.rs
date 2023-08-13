@@ -11,5 +11,5 @@ pub struct RenderableShape<S: Shape> {
 }
 
 pub trait Shape {
-  fn ray_hits(ray: &Ray) -> Option<Position>;
+  fn ray_hits(&self, ray: &Ray) -> Option<Position>;
 }

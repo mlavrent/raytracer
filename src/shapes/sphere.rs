@@ -7,7 +7,7 @@ pub struct Sphere {
 }
 
 impl Shape for Sphere {
-  fn ray_hits(ray: &crate::raytracer::ray::Ray) -> Option<Position> {
+  fn ray_hits(&self, ray: &crate::raytracer::ray::Ray) -> Option<Position> {
     todo!()
   }
 }

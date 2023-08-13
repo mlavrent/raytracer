@@ -32,7 +32,7 @@ impl Rectangle {
 }
 
 impl Shape for Rectangle {
-  fn ray_hits(ray: &crate::raytracer::ray::Ray) -> Option<Position> {
+  fn ray_hits(&self, ray: &crate::raytracer::ray::Ray) -> Option<Position> {
     todo!()
   }
 }
