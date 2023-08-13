@@ -1,5 +1,4 @@
 use crate::materials::Material;
-use crate::utils::Position;
 use crate::raytracer::ray::Ray;
 
 pub mod sphere;
@@ -11,5 +10,8 @@ pub struct RenderableShape<S: Shape> {
 }
 
 pub trait Shape {
-  fn ray_hits(&self, ray: &Ray) -> Option<Position>;
+  /// Returns the ray whose origin is the hit point and whose direction
+  /// is the surface normal vector at the hit point, if the shape was
+  /// hit by the provided ray.
+  fn ray_hits(&self, ray: &Ray) -> Option<Ray>;
 }

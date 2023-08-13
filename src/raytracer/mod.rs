@@ -17,7 +17,11 @@ pub fn get_ray_color(ray: Ray, scene: &Scene) -> Color {
   let ray_hit = scene.sphere.shape.ray_hits(&ray);
 
   match ray_hit {
-    Some(_) => Rgb([1.0, 0.0, 0.0]),
-    None => Rgb([1.0, 1.0, -(ray.direction.into_inner().z - 1.0) / 2.0]),
+    Some(hit_normal) =>{
+      println!("{0:?}", hit_normal.direction);
+      Rgb([(1.0 + hit_normal.direction.x) / 2.0,
+           0.0,
+           0.0])},
+    None => Rgb([0.0, 0.0, 0.0]),
   }
 }
