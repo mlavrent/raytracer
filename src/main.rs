@@ -14,7 +14,7 @@ mod camera;
 fn main() {
   let red_sphere = RenderableShape {
     shape: Sphere {
-      center: vector![0f64, 0f64, 0f64],
+      center: vector![0.0, 5.0, 0.0],
       radius: 2.5,
     },
     material: Material { color: Rgb([1.0, 0.0, 0.0]) }
@@ -27,7 +27,7 @@ fn main() {
       top_edge: vector![4.0, 0.0, 0.0],
       left_edge: vector![0.0, 0.0, -2.0],
     },
-    pixel_density: 60.0,
+    pixel_density: 120.0,
   };
 
   let scene = Scene { camera, sphere: red_sphere };
