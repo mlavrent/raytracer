@@ -2,7 +2,7 @@ use camera::Camera;
 use image::Rgb;
 use materials::Material;
 use nalgebra::vector;
-use raytracer::{render_scene, scene::Scene};
+use raytracer::scene::Scene;
 use shapes::{sphere::Sphere, rectangle::Rectangle, RenderableShape};
 
 mod shapes;
@@ -31,6 +31,6 @@ fn main() {
   };
 
   let scene = Scene { camera, objects: vec![red_sphere] };
-  let image = render_scene(&scene);
+  let image = scene.render_scene();
   image.save("results.png").expect("Failed to export image.");
 }
