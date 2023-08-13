@@ -30,7 +30,7 @@ fn main() {
     pixel_density: 120.0,
   };
 
-  let scene = Scene { camera, sphere: red_sphere };
-  let image = render_scene(scene);
+  let scene = Scene { camera, shapes: vec![&red_sphere] };
+  let image = render_scene(&scene);
   image.save("results.png").expect("Failed to export image.");
 }

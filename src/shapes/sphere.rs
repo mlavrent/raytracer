@@ -1,12 +1,12 @@
 use crate::{utils::Position, raytracer::ray::Ray};
-use super::Shape;
+use super::Hittable;
 
 pub struct Sphere {
   pub center: Position,
   pub radius: f64,
 }
 
-impl Shape for Sphere {
+impl Hittable for Sphere {
   fn ray_hits(&self, ray: &crate::raytracer::ray::Ray) -> Option<Ray> {
     let center_to_ray_origin = ray.origin - self.center;
 

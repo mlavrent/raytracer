@@ -1,8 +1,16 @@
 use crate::camera::Camera;
-use crate::shapes::sphere::Sphere;
-use crate::shapes::RenderableShape;
+use crate::shapes::Renderable;
+use crate::utils::Color;
 
-pub struct Scene {
+use super::ray::Ray;
+
+pub struct Scene<'a> {
   pub camera: Camera,
-  pub sphere: RenderableShape<Sphere>,
+  pub shapes: Vec<&'a dyn Renderable>,
+}
+
+impl Scene<'_> {
+  pub fn get_ray_color(&self, ray: &Ray) -> Color {
+    todo!()
+  }
 }
