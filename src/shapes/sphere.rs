@@ -22,7 +22,6 @@ impl Shape for Sphere {
     else {
       let distance_to_hit_1 = (-b + discriminant.sqrt()) / (2.0 * a);
       let distance_to_hit_2 = (-b - discriminant.sqrt()) / (2.0 * a);
-      println!("{distance_to_hit_1}, {distance_to_hit_2}");
 
       let first_hit_distance = if distance_to_hit_1 < 0.0 && distance_to_hit_2 < 0.0 { None }
         else if distance_to_hit_1 < 0.0 { Some(distance_to_hit_2) }
