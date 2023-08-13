@@ -21,7 +21,7 @@ impl Camera {
 
   pub fn pixel_height(&self) -> u32 { (self.viewport_height() * self.pixel_density) as u32 }
 
-  pub fn get_pixel_ray(&self, pixel_coords: Vector2<u32>) -> Ray {
+  pub fn get_pixel_center_ray(&self, pixel_coords: Vector2<u32>) -> Ray {
     let offset: Vector2<f64> = pixel_coords.cast() / self.pixel_density;
     let pixel_position: Position = self.viewport.position_from_offset(offset);
 
