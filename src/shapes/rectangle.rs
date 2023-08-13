@@ -1,5 +1,5 @@
 use nalgebra::{Vector3, Vector2, vector};
-use crate::utils::Position;
+use crate::{utils::Position, raytracer::ray::Ray};
 use super::Shape;
 
 
@@ -32,7 +32,7 @@ impl Rectangle {
 }
 
 impl Shape for Rectangle {
-  fn ray_hits(&self, ray: &crate::raytracer::ray::Ray) -> Option<Position> {
+  fn ray_hits(&self, ray: &crate::raytracer::ray::Ray) -> Option<Ray> {
     todo!()
   }
 }
