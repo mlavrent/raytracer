@@ -1,6 +1,6 @@
 use nalgebra::{Vector3, Vector2, vector};
-
 use crate::utils::Position;
+use super::Shape;
 
 
 pub struct Rectangle {
@@ -28,5 +28,11 @@ impl Rectangle {
 
   pub fn position_from_offset(&self, offsets: Vector2<f64>) -> Position {
     self.position_from_percent_offset(vector![offsets[0] / self.top_edge.norm(), offsets[1] / self.left_edge.norm()])
+  }
+}
+
+impl Shape for Rectangle {
+  fn ray_hits(ray: &crate::raytracer::ray::Ray) -> Option<Position> {
+    todo!()
   }
 }
