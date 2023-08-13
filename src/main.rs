@@ -11,6 +11,9 @@ mod utils;
 mod raytracer;
 mod camera;
 
+// constants that configure the ray tracer
+const NUM_RAYS_PER_PIXEL: usize = 3;
+
 fn main() {
   let red_sphere = RenderableShape {
     shape: Box::new(Sphere {

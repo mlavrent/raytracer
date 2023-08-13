@@ -27,4 +27,8 @@ impl Camera {
 
     Ray::new(self.eye_position, pixel_position - self.eye_position)
   }
+
+  pub fn get_pixel_rays<const N: usize>(&self, pixel_coords: Vector2<u32>) -> [Ray; N] {
+    todo!()
+  }
 }
