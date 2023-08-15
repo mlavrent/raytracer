@@ -32,7 +32,7 @@ impl Scene {
     let nearest_hit = all_hits.min_by(|h1, h2| h1.1.distance_to_hit.total_cmp(&h2.1.distance_to_hit));
 
     match nearest_hit {
-      None => vector![0.9, 0.9, 0.9],
+      None => vector![1.0, 1.0, ray.direction.y * 0.5 + 1.0],
       Some((object, hit_info)) => {
         let scattered_ray = object.material.scatter_ray(ray, &hit_info);
         let scattered_color = self.get_ray_color(&scattered_ray, num_ray_bounces + 1);

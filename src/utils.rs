@@ -32,14 +32,14 @@ pub fn average(vecs: &[Vector3<f64>]) -> Option<Vector3<f64>> {
 }
 
 // ------- Weighted random sampling from discrete set (enum) -------
-pub struct WeightedEnumDistribution<A, const N: usize> {
+pub struct DiscreteDistribution<A, const N: usize> {
   distribution: WeightedIndex<f64>,
   weighted_values: [(A, f64); N],
 }
 
-impl<A, const N: usize> WeightedEnumDistribution<A, N> {
-  pub fn new(weighted_values: [(A, f64); N]) -> WeightedEnumDistribution<A, N> where A : Copy {
-    WeightedEnumDistribution {
+impl<A, const N: usize> DiscreteDistribution<A, N> {
+  pub fn new(weighted_values: [(A, f64); N]) -> DiscreteDistribution<A, N> where A : Copy {
+    DiscreteDistribution {
       distribution: WeightedIndex::new(weighted_values.map(|(_, w)| w)).unwrap(),
       weighted_values,
     }
@@ -53,7 +53,7 @@ impl<A, const N: usize> WeightedEnumDistribution<A, N> {
   }
 }
 
-impl<A, const N: usize> Distribution<A> for WeightedEnumDistribution<A, N> where A : Copy {
+impl<A, const N: usize> Distribution<A> for DiscreteDistribution<A, N> where A : Copy {
   fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> A { self.weighted_values[self.distribution.sample(rng)].0 }
 }
 
