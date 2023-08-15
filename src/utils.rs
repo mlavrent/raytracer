@@ -1,5 +1,6 @@
 use image::Rgb;
 use nalgebra::{Vector3, vector};
+use rand::{distributions::WeightedIndex, prelude::Distribution};
 
 pub type Position = Vector3<f64>;
 pub type Color = Vector3<f64>;
@@ -20,4 +21,29 @@ pub fn average(vecs: &[Vector3<f64>]) -> Option<Vector3<f64>> {
   else {
     Some(vecs.iter().fold(vector![0.0, 0.0, 0.0], |b, v| b + v) / vecs.len() as f64)
   }
+}
+
+pub struct WeightedEnumDistribution<A, const N: usize> {
+  distribution: WeightedIndex<f64>,
+  weighted_values: [(A, f64); N],
+}
+
+impl<A, const N: usize> WeightedEnumDistribution<A, N> {
+  pub fn new(weighted_values: [(A, f64); N]) -> WeightedEnumDistribution<A, N> where A : Copy {
+    WeightedEnumDistribution {
+      distribution: WeightedIndex::new(weighted_values.map(|(_, w)| w)).unwrap(),
+      weighted_values,
+    }
+  }
+
+  pub fn get_weight_for_value(&self, value: &A) -> f64 where A: PartialEq {
+    match self.weighted_values.iter().find(|&v| v.0 == *value) {
+      Some(&(_, w)) => w,
+      None => 0.0,
+    }
+  }
+}
+
+impl<A, const N: usize> Distribution<A> for WeightedEnumDistribution<A, N> where A : Copy {
+  fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> A { self.weighted_values[self.distribution.sample(rng)].0 }
 }

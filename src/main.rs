@@ -1,9 +1,10 @@
 use camera::Camera;
-use enum_map::enum_map;
-use materials::{Material, ScatterType::*};
+use materials::{Material, ScatterType::{*, self}};
 use nalgebra::vector;
+use rand::distributions::WeightedIndex;
 use raytracer::scene::Scene;
 use shapes::{sphere::Sphere, rectangle::Rectangle, RenderableShape};
+use utils::WeightedEnumDistribution;
 
 mod shapes;
 mod materials;
@@ -21,14 +22,14 @@ fn main() {
       center: vector![0.0, 1.0, 0.0],
       radius: 0.5,
     }),
-    material: Material { color: vector![1.0, 0.0, 0.0], scatter_percentages: enum_map! { Diffuse => 1.0, _ => 0.0 } }
+    material: Material { color: vector![1.0, 0.0, 0.0], scatter_percentages: WeightedEnumDistribution::new([(ScatterType::Diffuse, 1.0), (ScatterType::Specular, 0.0), (ScatterType::Refractive, 0.0)]) }
   };
   let big_sphere = RenderableShape {
     shape: Box::new(Sphere {
       center: vector![0.0, 1.0, -100.5],
       radius: 100.0,
     }),
-    material: Material { color: vector![0.0, 1.0, 0.0], scatter_percentages: enum_map! { Diffuse => 1.0, _ => 0.0 } }
+    material: Material { color: vector![0.0, 1.0, 0.0], scatter_percentages: WeightedEnumDistribution::new([(ScatterType::Diffuse, 1.0), (ScatterType::Specular, 0.0), (ScatterType::Refractive, 0.0)]) }
   };
 
   let camera = Camera {

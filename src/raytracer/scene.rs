@@ -1,4 +1,4 @@
-use image::{Rgb, ImageBuffer, RgbImage};
+use image::{ImageBuffer, RgbImage};
 use nalgebra::vector;
 
 use crate::{NUM_RAYS_PER_PIXEL, MAX_RAY_BOUNCES};
@@ -37,7 +37,7 @@ impl Scene {
         let scattered_color = self.get_ray_color(&scattered_ray, num_ray_bounces + 1);
 
         // TODO: more interesting stuff will go in here
-        vector![(1.0 + hit_info.hit_normal.direction.y) / 2.0, 0.0, 0.0]
+        object.material.color * 0.75 + scattered_color * 0.25
       },
     }
   }
