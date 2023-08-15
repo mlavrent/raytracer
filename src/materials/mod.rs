@@ -40,6 +40,7 @@ impl Material {
   }
 
   fn refractive_scatter(&self, in_ray: &Ray, hit_info: &HitInfo, refraction_index: f64) -> Ray {
-    todo!()
+    // let incidence_angle
+    Ray::new(hit_info.hit_normal.origin, todo!())
   }
 }
