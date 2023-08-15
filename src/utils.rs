@@ -1,6 +1,8 @@
 use image::Rgb;
-use nalgebra::{Vector3, vector};
+use nalgebra::{Vector3, vector, UnitVector3};
 use rand::{distributions::WeightedIndex, prelude::Distribution};
+
+use crate::shapes::sphere;
 
 // ------- Type aliases -------
 pub type Position = Vector3<f64>;
@@ -12,8 +14,12 @@ pub fn color_to_eight_bit(color: Color) -> Rgb<u8> {
   Rgb([eight_bit_color[0], eight_bit_color[1], eight_bit_color[2]])
 }
 
-fn channel_to_eight_bit(percentage: f64) -> u8 {
-  (percentage * (u8::MAX as f64 - u8::MIN as f64) + u8::MIN as f64) as u8
+fn channel_to_eight_bit(channel: f64) -> u8 {
+  (channel * (u8::MAX as f64 - u8::MIN as f64) + u8::MIN as f64) as u8
+}
+
+pub fn gamma_correction(color: Color, gamma: f64) -> Color {
+  color.map(|channel| channel.powf(1.0 / gamma))
 }
 
 pub fn average(vecs: &[Vector3<f64>]) -> Option<Vector3<f64>> {
@@ -49,4 +55,22 @@ impl<A, const N: usize> WeightedEnumDistribution<A, N> {
 
 impl<A, const N: usize> Distribution<A> for WeightedEnumDistribution<A, N> where A : Copy {
   fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> A { self.weighted_values[self.distribution.sample(rng)].0 }
+}
+
+// ------- Lambertian distribution -------
+pub struct LambertianDistribution {
+  pub point: Position,
+  pub normal: UnitVector3<f64>,
+}
+
+impl Distribution<Vector3<f64>> for LambertianDistribution {
+  fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> Position {
+    let sphere_center = self.point + self.normal.into_inner();
+
+    let random_x = rng.gen::<f64>() * 2.0 - 1.0;
+    let random_y = rng.gen::<f64>() * 2.0 - 1.0;
+    let offset = vector![random_x, random_y, 1.0 - (random_x.powi(2) + random_y.powi(2)).sqrt()];
+
+    (sphere_center + offset) - self.point
+  }
 }

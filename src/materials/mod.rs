@@ -1,6 +1,6 @@
 use rand::prelude::Distribution;
 use crate::{raytracer::ray::Ray, shapes::HitInfo};
-use crate::utils::{Color, WeightedEnumDistribution};
+use crate::utils::{Color, WeightedEnumDistribution, LambertianDistribution};
 
 pub struct Material {
   pub color: Color,
@@ -23,9 +23,13 @@ impl Material {
     }
   }
 
-  fn diffuse_scatter(&self, in_ray: &Ray, hit_info: &HitInfo) -> Ray {
-    println!("Doing diffuse!");
-    todo!()
+  fn diffuse_scatter(&self, _: &Ray, hit_info: &HitInfo) -> Ray {
+    let scatter_distribution = LambertianDistribution {
+      point: hit_info.hit_normal.origin,
+      normal: hit_info.hit_normal.direction,
+    };
+
+    Ray::new(hit_info.hit_normal.origin, scatter_distribution.sample(&mut rand::thread_rng()))
   }
 
   fn specular_scatter(&self, in_ray: &Ray, hit_info: &HitInfo) -> Ray {

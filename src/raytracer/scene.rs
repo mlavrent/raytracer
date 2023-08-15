@@ -1,10 +1,10 @@
 use image::{ImageBuffer, RgbImage};
 use nalgebra::vector;
 
-use crate::{NUM_RAYS_PER_PIXEL, MAX_RAY_BOUNCES};
+use crate::{NUM_RAYS_PER_PIXEL, MAX_RAY_BOUNCES, GAMMA_CORRECTION};
 use crate::camera::Camera;
 use crate::shapes::RenderableShape;
-use crate::utils::{Color, color_to_eight_bit, average};
+use crate::utils::{Color, color_to_eight_bit, average, gamma_correction};
 use super::ray::Ray;
 
 pub struct Scene {
@@ -20,7 +20,8 @@ impl Scene {
         let ray_colors = rays.map(|r| self.get_ray_color(&r, 0));
 
         let average_color = average(&ray_colors).unwrap_or(vector![0.0, 0.0, 0.0]);
-        color_to_eight_bit(average_color)
+        let gamma_corrected = gamma_correction(average_color, GAMMA_CORRECTION);
+        color_to_eight_bit(gamma_corrected)
       })
   }
 
@@ -31,13 +32,13 @@ impl Scene {
     let nearest_hit = all_hits.min_by(|h1, h2| h1.1.distance_to_hit.total_cmp(&h2.1.distance_to_hit));
 
     match nearest_hit {
-      None => vector![0.0, 0.0, 0.0],
+      None => vector![0.9, 0.9, 0.9],
       Some((object, hit_info)) => {
         let scattered_ray = object.material.scatter_ray(ray, &hit_info);
         let scattered_color = self.get_ray_color(&scattered_ray, num_ray_bounces + 1);
 
         // TODO: more interesting stuff will go in here
-        object.material.color * 0.75 + scattered_color * 0.25
+        scattered_color * 0.5
       },
     }
   }
