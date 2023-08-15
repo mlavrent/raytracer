@@ -2,9 +2,11 @@ use image::Rgb;
 use nalgebra::{Vector3, vector};
 use rand::{distributions::WeightedIndex, prelude::Distribution};
 
+// ------- Type aliases -------
 pub type Position = Vector3<f64>;
 pub type Color = Vector3<f64>;
 
+// ------ Color helper functions -------
 pub fn color_to_eight_bit(color: Color) -> Rgb<u8> {
   let eight_bit_color = color.map(channel_to_eight_bit);
   Rgb([eight_bit_color[0], eight_bit_color[1], eight_bit_color[2]])
@@ -23,6 +25,7 @@ pub fn average(vecs: &[Vector3<f64>]) -> Option<Vector3<f64>> {
   }
 }
 
+// ------- Weighted random sampling from discrete set (enum) -------
 pub struct WeightedEnumDistribution<A, const N: usize> {
   distribution: WeightedIndex<f64>,
   weighted_values: [(A, f64); N],

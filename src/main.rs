@@ -14,7 +14,7 @@ mod camera;
 
 // constants that configure the ray tracer
 const NUM_RAYS_PER_PIXEL: usize = 20;
-const MAX_RAY_BOUNCES: usize = 10;
+const MAX_RAY_BOUNCES: usize = 2;
 
 fn main() {
   let small_sphere = RenderableShape {
