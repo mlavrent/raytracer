@@ -50,13 +50,13 @@ fn main() {
   };
 
   let camera = Camera {
-    eye_position: vector![0.0, 0.0, 0.0],
+    eye_position: vector![0.0, -2.0, 0.0],
     viewport: Rectangle {
       top_left: vector![-2.0, 1.0, 1.0],
       top_edge: vector![4.0, 0.0, 0.0],
       left_edge: vector![0.0, 0.0, -2.0],
     },
-    pixel_density: 150.0,
+    pixel_density: 200.0,
   };
 
   let scene = Scene { camera, objects: vec![center_sphere, ground_sphere, left_sphere, right_sphere] };

@@ -1,5 +1,7 @@
-use image::{ImageBuffer, RgbImage};
+use image::{ImageBuffer, RgbImage, Rgb};
+use itertools::Itertools;
 use nalgebra::vector;
+use rayon::prelude::{ParallelBridge, IntoParallelIterator, ParallelIterator};
 
 use crate::{NUM_RAYS_PER_PIXEL, MAX_RAY_BOUNCES, GAMMA_CORRECTION};
 use crate::camera::Camera;
@@ -14,15 +16,23 @@ pub struct Scene<'a> {
 
 impl<'a> Scene<'a> {
   pub fn render_scene(&self) -> RgbImage {
-    ImageBuffer::from_fn(self.camera.pixel_width(), self.camera.pixel_height(),
-      |pixel_x, pixel_y| {
-        let rays: [Ray; NUM_RAYS_PER_PIXEL] = self.camera.get_pixel_rays(vector![pixel_x, pixel_y]);
-        let ray_colors = rays.map(|r| self.get_ray_color(&r, 0));
+    let pixels = (0..self.camera.pixel_width()).cartesian_product(0..self.camera.pixel_height());
+    let colors = pixels.par_bridge().into_par_iter().map(|(pixel_x, pixel_y)| self.get_pixel_color(pixel_x, pixel_y));
 
-        let average_color = average(&ray_colors).unwrap_or(vector![0.0, 0.0, 0.0]);
-        let gamma_corrected = gamma_correction(average_color, GAMMA_CORRECTION);
-        color_to_eight_bit(gamma_corrected)
-      })
+    // ImageBuffer::from_fn(self.camera.pixel_width(), self.camera.pixel_height(),
+    //   |pixel_x, pixel_y| {
+
+    //   })
+    todo!()
+  }
+
+  fn get_pixel_color(&self, pixel_x: u32, pixel_y: u32) -> Rgb<u8> {
+    let rays: [Ray; NUM_RAYS_PER_PIXEL] = self.camera.get_pixel_rays(vector![pixel_x, pixel_y]);
+    let ray_colors = rays.map(|r| self.get_ray_color(&r, 0));
+
+    let average_color = average(&ray_colors).unwrap_or(vector![0.0, 0.0, 0.0]);
+    let gamma_corrected = gamma_correction(average_color, GAMMA_CORRECTION);
+    color_to_eight_bit(gamma_corrected)
   }
 
   fn get_ray_color(&self, ray: &Ray, num_ray_bounces: usize) -> Color {
