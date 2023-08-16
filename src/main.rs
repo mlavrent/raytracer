@@ -1,5 +1,5 @@
 use camera::Camera;
-use materials::{Material, ScatterType::{*, self}};
+use materials::{Material, diffuse::DiffuseMaterial, specular::ReflectiveMaterial};
 use nalgebra::vector;
 use raytracer::scene::Scene;
 use shapes::{sphere::Sphere, rectangle::Rectangle, RenderableShape};
@@ -17,45 +17,37 @@ const MAX_RAY_BOUNCES: usize = 10;
 const GAMMA_CORRECTION: f64 = 2.0;
 
 fn main() {
+  let ground_material = DiffuseMaterial { color: vector![0.4, 0.8, 0.4] };
+  let diffuse_material = DiffuseMaterial { color: vector![0.7, 0.2, 0.7] };
+  let mirror_material = ReflectiveMaterial {};
+
   let ground_sphere = RenderableShape {
     shape: Box::new(Sphere {
       center: vector![0.0, 1.0, -100.5],
       radius: 100.0,
     }),
-    material: Material {
-      color: vector![0.8, 0.8, 0.0],
-      scatter_percentages: DiscreteDistribution::new([(ScatterType::Diffuse, 1.0), (ScatterType::Specular, 0.0), (ScatterType::Refractive(1.0), 0.0)])
-    }
+    material: &ground_material,
   };
   let center_sphere = RenderableShape {
     shape: Box::new(Sphere {
       center: vector![0.0, 1.0, 0.0],
       radius: 0.5,
     }),
-    material: Material {
-      color: vector![0.7, 0.3, 0.3],
-      scatter_percentages: DiscreteDistribution::new([(ScatterType::Diffuse, 0.0), (ScatterType::Specular, 1.0), (ScatterType::Refractive(1.0), 0.0)])
-    }
+    material: &diffuse_material,
   };
   let left_sphere = RenderableShape {
     shape: Box::new(Sphere {
       center: vector![-1.0, 1.0, 0.0],
       radius: 0.5,
     }),
-    material: Material {
-      color: vector![0.8, 0.8, 0.8],
-      scatter_percentages: DiscreteDistribution::new([(ScatterType::Diffuse, 1.0), (ScatterType::Specular, 0.0), (ScatterType::Refractive(1.0), 0.0)]),
-    },
+    material: &diffuse_material,
   };
   let right_sphere = RenderableShape {
     shape: Box::new(Sphere {
       center: vector![1.0, 1.0, 0.0],
       radius: 0.5,
     }),
-    material: Material {
-      color: vector![0.8, 0.6, 0.2],
-      scatter_percentages: DiscreteDistribution::new([(ScatterType::Diffuse, 0.0), (ScatterType::Specular, 1.0), (ScatterType::Refractive(1.0), 0.0)]),
-    },
+    material: &mirror_material,
   };
 
   let camera = Camera {

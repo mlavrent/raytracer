@@ -12,12 +12,13 @@ pub trait Hittable {
   fn ray_hits(&self, ray: &Ray) -> Option<HitInfo>;
 }
 
+// TODO: we need to adjust this to also return reverse-side hits (for refraction) while marking them as such
 pub struct HitInfo {
   pub hit_normal: Ray,
   pub distance_to_hit: f64,
 }
 
-pub struct RenderableShape {
+pub struct RenderableShape<'a> {
   pub shape: Box<dyn Hittable>,
-  pub material: Material,
+  pub material: &'a dyn Material,
 }
