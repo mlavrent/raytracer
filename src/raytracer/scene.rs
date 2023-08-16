@@ -1,4 +1,4 @@
-use image::{ImageBuffer, RgbImage, Rgb};
+use image::{ImageBuffer, RgbImage, Rgb, Pixel};
 use itertools::Itertools;
 use nalgebra::vector;
 use rayon::prelude::{ParallelBridge, IntoParallelIterator, ParallelIterator};
@@ -18,12 +18,9 @@ impl<'a> Scene<'a> {
   pub fn render_scene(&self) -> RgbImage {
     let pixels = (0..self.camera.pixel_width()).cartesian_product(0..self.camera.pixel_height());
     let colors = pixels.par_bridge().into_par_iter().map(|(pixel_x, pixel_y)| self.get_pixel_color(pixel_x, pixel_y));
+    let image_buffer = colors.flat_map(|rgb| rgb.channels().to_vec());
 
-    // ImageBuffer::from_fn(self.camera.pixel_width(), self.camera.pixel_height(),
-    //   |pixel_x, pixel_y| {
-
-    //   })
-    todo!()
+    ImageBuffer::from_vec(self.camera.pixel_width(), self.camera.pixel_height(), image_buffer.collect()).unwrap()
   }
 
   fn get_pixel_color(&self, pixel_x: u32, pixel_y: u32) -> Rgb<u8> {

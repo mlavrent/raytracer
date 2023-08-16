@@ -2,7 +2,6 @@ pub mod specular;
 pub mod diffuse;
 pub mod refractive;
 
-use rand::prelude::Distribution;
 use crate::{raytracer::ray::Ray, shapes::HitInfo, utils::Color};
 
 pub trait Material {
