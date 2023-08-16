@@ -18,7 +18,7 @@ const GAMMA_CORRECTION: f64 = 2.0;
 fn main() {
   let ground_material = DiffuseMaterial { color: vector![0.4, 0.8, 0.4] };
   let diffuse_material = DiffuseMaterial { color: vector![0.7, 0.2, 0.7] };
-  let mirror_material = ReflectiveMaterial {};
+  let mirror_material = ReflectiveMaterial { color: vector![0.0, 1.0, 1.0] };
 
   let ground_sphere = RenderableShape {
     shape: Box::new(Sphere {
@@ -43,7 +43,7 @@ fn main() {
   };
   let right_sphere = RenderableShape {
     shape: Box::new(Sphere {
-      center: vector![1.0, 1.0, 0.0],
+      center: vector![1.25, 1.0, 0.0],
       radius: 0.5,
     }),
     material: &mirror_material,

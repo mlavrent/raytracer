@@ -1,9 +1,12 @@
-use crate::{raytracer::ray::Ray, shapes::HitInfo};
+use crate::raytracer::ray::Ray;
+use crate::shapes::HitInfo;
+use crate::utils::Color;
 
 use super::{Material, ScatterInfo};
 
 
 pub struct ReflectiveMaterial {
+  pub color: Color,
 }
 
 impl Material for ReflectiveMaterial {
@@ -13,7 +16,7 @@ impl Material for ReflectiveMaterial {
 
     ScatterInfo {
       scattered_ray: Ray::new(hit_info.hit_normal.origin, reflected_direction),
-      attenuation: todo!(),
+      attenuation: self.color,
     }
   }
 }

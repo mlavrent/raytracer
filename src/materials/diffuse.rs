@@ -10,7 +10,7 @@ pub struct DiffuseMaterial {
 }
 
 impl Material for DiffuseMaterial {
-  fn scatter_ray(&self, in_ray: &Ray, hit_info: &HitInfo) -> ScatterInfo {
+  fn scatter_ray(&self, _: &Ray, hit_info: &HitInfo) -> ScatterInfo {
     let scatter_distribution = LambertianDistribution {
       point: hit_info.hit_normal.origin,
       normal: hit_info.hit_normal.direction,
@@ -18,7 +18,7 @@ impl Material for DiffuseMaterial {
 
     ScatterInfo {
       scattered_ray: Ray::new(hit_info.hit_normal.origin, scatter_distribution.sample(&mut rand::thread_rng())),
-      attenuation: todo!(),
+      attenuation: self.color,
     }
   }
 }
