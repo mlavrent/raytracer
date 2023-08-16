@@ -34,11 +34,10 @@ impl<'a> Scene<'a> {
     match nearest_hit {
       None => vector![1.0, ray.direction.y * 0.5 + 1.0, 1.0],
       Some((object, hit_info)) => {
-        let scattered_ray = object.material.scatter_ray(ray, &hit_info);
-        let scattered_color = self.get_ray_color(&scattered_ray, num_ray_bounces + 1);
+        let scatter_info = object.material.scatter_ray(ray, &hit_info);
+        let scattered_color = self.get_ray_color(&scatter_info.scattered_ray, num_ray_bounces + 1);
 
-        // TODO: more interesting stuff will go in here
-        scattered_color
+        scattered_color.component_mul(&scatter_info.attenuation)
       },
     }
   }

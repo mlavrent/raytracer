@@ -1,9 +1,8 @@
 use camera::Camera;
-use materials::{Material, diffuse::DiffuseMaterial, specular::ReflectiveMaterial};
+use materials::{diffuse::DiffuseMaterial, specular::ReflectiveMaterial};
 use nalgebra::vector;
 use raytracer::scene::Scene;
 use shapes::{sphere::Sphere, rectangle::Rectangle, RenderableShape};
-use utils::DiscreteDistribution;
 
 mod shapes;
 mod materials;
@@ -12,8 +11,8 @@ mod raytracer;
 mod camera;
 
 // constants that configure the ray tracer
-const NUM_RAYS_PER_PIXEL: usize = 25;
-const MAX_RAY_BOUNCES: usize = 10;
+const NUM_RAYS_PER_PIXEL: usize = 40;
+const MAX_RAY_BOUNCES: usize = 3;
 const GAMMA_CORRECTION: f64 = 2.0;
 
 fn main() {
