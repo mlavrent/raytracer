@@ -1,9 +1,5 @@
-use image::Rgb;
-use nalgebra::UnitVector3;
 use crate::materials::Material;
 use crate::raytracer::ray::Ray;
-use crate::raytracer::scene::Scene;
-use crate::utils::{Color, Position};
 
 pub mod sphere;
 pub mod rectangle;
