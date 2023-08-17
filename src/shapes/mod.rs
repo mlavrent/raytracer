@@ -8,7 +8,6 @@ pub trait Hittable {
   fn ray_hits(&self, ray: &Ray) -> Option<HitInfo>;
 }
 
-// TODO: we need to adjust this to also return reverse-side hits (for refraction) while marking them as such
 pub struct HitInfo {
   pub hit_normal: Ray,
   pub distance_to_hit: f64,
