@@ -42,7 +42,7 @@ impl Material for RefractiveMaterial {
 }
 
 pub(super) fn refraction_direction(in_direction: Vector3<f64>, normal: Vector3<f64>, refraction_index: f64) -> Vector3<f64> {
-  let cos_incidence_angle = cos_incidence_angle_vec(in_direction, normal);
+  let cos_incidence_angle = cos_incidence_angle_vec(in_direction, normal).abs();
 
   in_direction * refraction_index
     + normal * (refraction_index * cos_incidence_angle - (1.0 - refraction_index.powi(2) * (1.0 - cos_incidence_angle.powi(2)).sqrt()))
