@@ -12,6 +12,7 @@ use super::ray::Ray;
 pub struct Scene<'a> {
   pub camera: Camera,
   pub objects: Vec<RenderableShape<'a>>,
+  pub background_color: Color,
 }
 
 impl<'a> Scene<'a> {
@@ -33,7 +34,7 @@ impl<'a> Scene<'a> {
   }
 
   fn get_ray_color(&self, ray: &Ray, num_ray_bounces: usize) -> Color {
-    if num_ray_bounces > MAX_RAY_BOUNCES { return vector![0.0, 0.0, 0.0]; }
+    if num_ray_bounces > MAX_RAY_BOUNCES { return self.background_color; }
 
     let all_hits = self.objects.iter()
       .filter_map(|object| object.shape.ray_hits(ray).map(|hit_info| (object, hit_info)))
@@ -41,7 +42,7 @@ impl<'a> Scene<'a> {
     let nearest_hit = all_hits.min_by(|h1, h2| h1.1.distance_to_hit.total_cmp(&h2.1.distance_to_hit));
 
     match nearest_hit {
-      None => vector![0.0, 0.0, 0.0],
+      None => self.background_color,
       Some((object, hit_info)) => {
         let scatter_info = object.material.scatter_ray(ray, &hit_info);
         match scatter_info.scattered_ray {
