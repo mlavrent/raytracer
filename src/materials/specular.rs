@@ -13,7 +13,7 @@ pub struct ReflectiveMaterial {
 impl Material for ReflectiveMaterial {
   fn scatter_ray(&self, in_ray: &Ray, hit_info: &HitInfo) -> ScatterInfo {
     ScatterInfo {
-      scattered_ray: Ray::new(hit_info.hit_normal.origin, reflection_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner())),
+      scattered_ray: Some(Ray::new(hit_info.hit_normal.origin, reflection_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner()))),
       attenuation: self.color,
     }
   }

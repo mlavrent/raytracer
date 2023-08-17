@@ -11,9 +11,9 @@ mod raytracer;
 mod camera;
 
 // constants that configure the ray tracer
-const NUM_RAYS_PER_PIXEL: usize = 40;
+const NUM_RAYS_PER_PIXEL: usize = 100;
 const MAX_RAY_BOUNCES: usize = 6;
-const GAMMA_CORRECTION: f64 = 1.8;
+const GAMMA_CORRECTION: f64 = 2.0;
 
 fn main() {
   let ground_material = DiffuseMaterial { color: vector![0.4, 0.8, 0.4] };

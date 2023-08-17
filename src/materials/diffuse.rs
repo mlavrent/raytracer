@@ -17,7 +17,7 @@ impl Material for DiffuseMaterial {
     };
 
     ScatterInfo {
-      scattered_ray: Ray::new(hit_info.hit_normal.origin, scatter_distribution.sample(&mut rand::thread_rng())),
+      scattered_ray: Some(Ray::new(hit_info.hit_normal.origin, scatter_distribution.sample(&mut rand::thread_rng()))),
       attenuation: self.color,
     }
   }

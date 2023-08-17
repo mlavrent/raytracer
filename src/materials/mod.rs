@@ -1,6 +1,7 @@
 pub mod specular;
 pub mod diffuse;
 pub mod refractive;
+pub mod emitter;
 
 use crate::{raytracer::ray::Ray, shapes::HitInfo, utils::Color};
 
@@ -9,6 +10,6 @@ pub trait Material {
 }
 
 pub struct ScatterInfo {
-  pub scattered_ray: Ray,
+  pub scattered_ray: Option<Ray>,
   pub attenuation: Color,
 }

@@ -7,7 +7,6 @@ use crate::raytracer::ray::Ray;
 use super::specular::reflection_direction;
 use super::{Material, ScatterInfo};
 
-
 pub struct RefractiveMaterial {
   pub refraction_index: f64,
   pub color: Color,
@@ -35,11 +34,8 @@ impl Material for RefractiveMaterial {
       ScatterType::Refraction => refraction_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner(), refraction_ratio),
     };
 
-    // TODO: use 1/refraction_index if normal & ray have angle < 90 i.e. the cosine is positive
-    // let scatter_direction = refraction_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner(), refraction_ratio);
-
     ScatterInfo {
-      scattered_ray: Ray::new(hit_info.hit_normal.origin, scatter_direction),
+      scattered_ray: Some(Ray::new(hit_info.hit_normal.origin, scatter_direction)),
       attenuation: self.color,
     }
   }

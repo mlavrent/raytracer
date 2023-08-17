@@ -1,7 +1,7 @@
 use image::{ImageBuffer, RgbImage, Rgb, Pixel};
 use itertools::Itertools;
 use nalgebra::vector;
-use rayon::prelude::{ParallelBridge, IntoParallelIterator, ParallelIterator, IntoParallelRefIterator};
+use rayon::prelude::{ParallelIterator, IntoParallelRefIterator};
 
 use crate::{NUM_RAYS_PER_PIXEL, MAX_RAY_BOUNCES, GAMMA_CORRECTION};
 use crate::camera::Camera;
@@ -41,12 +41,13 @@ impl<'a> Scene<'a> {
     let nearest_hit = all_hits.min_by(|h1, h2| h1.1.distance_to_hit.total_cmp(&h2.1.distance_to_hit));
 
     match nearest_hit {
-      None => vector![0.5, 0.5, 0.5],
+      None => vector![0.4, 0.4, 0.4],
       Some((object, hit_info)) => {
         let scatter_info = object.material.scatter_ray(ray, &hit_info);
-        let scattered_color = self.get_ray_color(&scatter_info.scattered_ray, num_ray_bounces + 1);
-
-        scattered_color.component_mul(&scatter_info.attenuation)
+        match scatter_info.scattered_ray {
+          Some(scattered_ray) => self.get_ray_color(&scattered_ray, num_ray_bounces + 1).component_mul(&scatter_info.attenuation),
+          None => scatter_info.attenuation,
+        }
       },
     }
   }
