@@ -26,7 +26,7 @@ impl Material for RefractiveMaterial {
     let cosine_incidence_angle = -hit_info.hit_normal.direction.dot(&in_ray.direction); // TODO: sort out signs here
     let refraction_ratio = if cosine_incidence_angle > 0.0 { self.refraction_index } else { 1.0 / self.refraction_index };
 
-    let reflectance = 0.0; // self.reflectance(cosine_incidence_angle, refraction_ratio);
+    let reflectance = 0.0; // self.reflectance(cosine_incidence_angle, refraction_ratio); TODO: figure this out
     let scatter_type_distribution = DiscreteDistribution::new([(ScatterType::Reflection, reflectance), (ScatterType::Refraction, 1.0 - reflectance)]);
     let scatter_direction = match scatter_type_distribution.sample(&mut rand::thread_rng()) {
       ScatterType::Reflection => reflection_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner()),
