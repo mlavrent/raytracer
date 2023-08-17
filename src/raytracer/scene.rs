@@ -1,7 +1,7 @@
 use image::{ImageBuffer, RgbImage, Rgb, Pixel};
 use itertools::Itertools;
 use nalgebra::vector;
-use rayon::prelude::{ParallelBridge, IntoParallelIterator, ParallelIterator};
+use rayon::prelude::{ParallelBridge, IntoParallelIterator, ParallelIterator, IntoParallelRefIterator};
 
 use crate::{NUM_RAYS_PER_PIXEL, MAX_RAY_BOUNCES, GAMMA_CORRECTION};
 use crate::camera::Camera;
@@ -16,8 +16,8 @@ pub struct Scene<'a> {
 
 impl<'a> Scene<'a> {
   pub fn render_scene(&self) -> RgbImage {
-    let pixels = (0..self.camera.pixel_height()).cartesian_product(0..self.camera.pixel_width());
-    let colors = pixels.map(|(pixel_y, pixel_x)| self.get_pixel_color(pixel_x, pixel_y));
+    let pixels = (0..self.camera.pixel_height()).cartesian_product(0..self.camera.pixel_width()).collect_vec();
+    let colors = pixels.par_iter().map(|(pixel_y, pixel_x)| self.get_pixel_color(*pixel_x, *pixel_y));
     let image_buffer = colors.flat_map(|rgb| rgb.channels().to_vec());
 
     ImageBuffer::from_vec(self.camera.pixel_width(), self.camera.pixel_height(), image_buffer.collect()).unwrap()
