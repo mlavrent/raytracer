@@ -12,7 +12,7 @@ mod camera;
 
 // constants that configure the ray tracer
 const NUM_RAYS_PER_PIXEL: usize = 40;
-const MAX_RAY_BOUNCES: usize = 5;
+const MAX_RAY_BOUNCES: usize = 6;
 const GAMMA_CORRECTION: f64 = 1.8;
 
 fn main() {
@@ -30,7 +30,7 @@ fn main() {
   };
   let center_sphere = RenderableShape {
     shape: &Sphere {
-      center: vector![0.0, 1.0, 0.0],
+      center: vector![-2.25, 3.0, 1.0],
       radius: 0.4,
     },
     material: &diffuse_material,

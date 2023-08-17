@@ -25,17 +25,18 @@ impl RefractiveMaterial {
 impl Material for RefractiveMaterial {
   fn scatter_ray(&self, in_ray: &Ray, hit_info: &HitInfo) -> ScatterInfo {
     let cosine_incidence_angle = -hit_info.hit_normal.direction.dot(&in_ray.direction);
-    // let reflectance = self.reflectance(cosine_incidence_angle);
+    let reflectance = self.reflectance(cosine_incidence_angle);
 
-    // let scatter_type_distribution = DiscreteDistribution::new([(ScatterType::Reflection, reflectance), (ScatterType::Refraction, 1.0 - reflectance)]);
-    // let scatter_direction = match scatter_type_distribution.sample(&mut rand::thread_rng()) {
-    //   ScatterType::Reflection => reflection_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner()),
-    //   ScatterType::Refraction => refraction_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner(), self.refraction_index),
-    // };
+    let refraction_ratio = if cosine_incidence_angle < 0.0 {self.refraction_index} else {1.0/self.refraction_index};
+
+    let scatter_type_distribution = DiscreteDistribution::new([(ScatterType::Reflection, reflectance), (ScatterType::Refraction, 1.0 - reflectance)]);
+    let scatter_direction = match scatter_type_distribution.sample(&mut rand::thread_rng()) {
+      ScatterType::Reflection => reflection_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner()),
+      ScatterType::Refraction => refraction_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner(), refraction_ratio),
+    };
 
     // TODO: use 1/refraction_index if normal & ray have angle < 90 i.e. the cosine is positive
-    let refraction_ratio = if cosine_incidence_angle < 0.0 {self.refraction_index} else {1.0/self.refraction_index};
-    let scatter_direction = refraction_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner(), refraction_ratio);
+    // let scatter_direction = refraction_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner(), refraction_ratio);
 
     ScatterInfo {
       scattered_ray: Ray::new(hit_info.hit_normal.origin, scatter_direction),
