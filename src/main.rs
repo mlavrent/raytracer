@@ -11,7 +11,7 @@ mod raytracer;
 mod camera;
 
 // constants that configure the ray tracer
-const NUM_RAYS_PER_PIXEL: usize = 100;
+const NUM_RAYS_PER_PIXEL: usize = 400;
 const MAX_RAY_BOUNCES: usize = 6;
 const GAMMA_CORRECTION: f64 = 2.0;
 
