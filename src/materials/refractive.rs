@@ -1,6 +1,7 @@
 use nalgebra::Vector3;
 use rand::prelude::Distribution;
 
+use crate::shapes::{cos_incidence_angle, cos_incidence_angle_vec};
 use crate::utils::DiscreteDistribution;
 use crate::{shapes::HitInfo, utils::Color};
 use crate::raytracer::ray::Ray;
@@ -23,8 +24,8 @@ impl RefractiveMaterial {
 
 impl Material for RefractiveMaterial {
   fn scatter_ray(&self, in_ray: &Ray, hit_info: &HitInfo) -> ScatterInfo {
-    let cosine_incidence_angle = -hit_info.hit_normal.direction.dot(&in_ray.direction); // TODO: sort out signs here
-    let refraction_ratio = if cosine_incidence_angle > 0.0 { self.refraction_index } else { 1.0 / self.refraction_index };
+    let cos_incidence_angle = cos_incidence_angle(in_ray, hit_info);
+    let refraction_ratio = if cos_incidence_angle > 0.0 { self.refraction_index } else { 1.0 / self.refraction_index };
 
     let reflectance = 0.0; // self.reflectance(cosine_incidence_angle, refraction_ratio); TODO: figure this out
     let scatter_type_distribution = DiscreteDistribution::new([(ScatterType::Reflection, reflectance), (ScatterType::Refraction, 1.0 - reflectance)]);
@@ -41,10 +42,10 @@ impl Material for RefractiveMaterial {
 }
 
 pub(super) fn refraction_direction(in_direction: Vector3<f64>, normal: Vector3<f64>, refraction_index: f64) -> Vector3<f64> {
-  let cosine_incidence_angle = normal.dot(&in_direction);
+  let cos_incidence_angle = cos_incidence_angle_vec(in_direction, normal);
 
   in_direction * refraction_index
-    + normal * (refraction_index * cosine_incidence_angle - (1.0 - refraction_index.powi(2) * (1.0 - cosine_incidence_angle.powi(2)).sqrt()))
+    + normal * (refraction_index * cos_incidence_angle - (1.0 - refraction_index.powi(2) * (1.0 - cos_incidence_angle.powi(2)).sqrt()))
 }
 
 #[derive(Clone, Copy)]

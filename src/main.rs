@@ -11,7 +11,7 @@ mod raytracer;
 mod camera;
 
 // constants that configure the ray tracer
-const NUM_RAYS_PER_PIXEL: usize = 100;
+const NUM_RAYS_PER_PIXEL: usize = 200;
 const MAX_RAY_BOUNCES: usize = 6;
 const GAMMA_CORRECTION: f64 = 2.0;
 
@@ -20,7 +20,7 @@ fn main() {
   let diffuse_material = DiffuseMaterial { color: vector![0.7, 0.2, 0.7] };
   let mirror_material = ReflectiveMaterial::new(vector![1.0, 0.8, 0.8], 0.2);
   let glass_material = RefractiveMaterial { refraction_index: 1.5, color: vector![1.0, 1.0, 1.0] };
-  let sun_material = EmitterMaterial { color: vector![1.0, 1.0, 1.0] };
+  let sun_material = EmitterMaterial { color: 5.0 * vector![1.0, 1.0, 1.0] };
 
   let ground_sphere = RenderableShape {
     shape: &Sphere {
@@ -31,7 +31,7 @@ fn main() {
   };
   let center_sphere = RenderableShape {
     shape: &Sphere {
-      center: vector![0.0, 1.0, 0.6],
+      center: vector![0.0, 1.5, 0.6],
       radius: 0.4,
     },
     material: &sun_material,
