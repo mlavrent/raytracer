@@ -65,10 +65,24 @@ impl Distribution<Vector3<f64>> for LambertianDistribution {
   fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> Position {
     let sphere_center = self.point + self.normal.into_inner();
 
-    let random_x = rng.gen::<f64>() * 2.0 - 1.0;
+    let random_x = rng.gen::<f64>() * 2.0 - 1.0; // TODO: refactor this to use the UniformSphereDistribution
     let random_y = rng.gen::<f64>() * 2.0 - 1.0;
     let offset = vector![random_x, random_y, 1.0 - (random_x.powi(2) + random_y.powi(2)).sqrt()];
 
     (sphere_center + offset) - self.point
+  }
+}
+
+// ------- Uniform distribution on sphere -------
+pub struct UniformSphereDistribution {
+  pub radius: f64,
+}
+
+impl Distribution<Vector3<f64>> for UniformSphereDistribution {
+  fn sample<R: rand::Rng + ?Sized>(&self, rng: &mut R) -> Vector3<f64> {
+    let random_x = rng.gen::<f64>() * 2.0 - 1.0;
+    let random_y = rng.gen::<f64>() * 2.0 - 1.0;
+
+    self.radius * vector![random_x, random_y, 1.0 - (random_x.powi(2) + random_y.powi(2)).sqrt()]
   }
 }
