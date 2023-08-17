@@ -35,11 +35,13 @@ impl<'a> Scene<'a> {
   fn get_ray_color(&self, ray: &Ray, num_ray_bounces: usize) -> Color {
     if num_ray_bounces > MAX_RAY_BOUNCES { return vector![0.0, 0.0, 0.0]; }
 
-    let all_hits = self.objects.iter().filter_map(|object| object.shape.ray_hits(ray).map(|hit_info| (object, hit_info)));
+    let all_hits = self.objects.iter()
+      .filter_map(|object| object.shape.ray_hits(ray).map(|hit_info| (object, hit_info)))
+      .filter(|(_, hit_info)| hit_info.distance_to_hit > 1e-7);
     let nearest_hit = all_hits.min_by(|h1, h2| h1.1.distance_to_hit.total_cmp(&h2.1.distance_to_hit));
 
     match nearest_hit {
-      None => vector![1.0, ray.direction.y * 0.5 + 1.0, 1.0],
+      None => vector![0.5, 0.5, 0.5],
       Some((object, hit_info)) => {
         let scatter_info = object.material.scatter_ray(ray, &hit_info);
         let scattered_color = self.get_ray_color(&scatter_info.scattered_ray, num_ray_bounces + 1);

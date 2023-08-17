@@ -2,8 +2,6 @@ use image::Rgb;
 use nalgebra::{Vector3, vector, UnitVector3};
 use rand::{distributions::WeightedIndex, prelude::Distribution};
 
-use crate::shapes::sphere;
-
 // ------- Type aliases -------
 pub type Position = Vector3<f64>;
 pub type Color = Vector3<f64>;
