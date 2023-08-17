@@ -16,8 +16,8 @@ pub struct Scene<'a> {
 
 impl<'a> Scene<'a> {
   pub fn render_scene(&self) -> RgbImage {
-    let pixels = (0..self.camera.pixel_width()).cartesian_product(0..self.camera.pixel_height());
-    let colors = pixels.par_bridge().into_par_iter().map(|(pixel_x, pixel_y)| self.get_pixel_color(pixel_x, pixel_y));
+    let pixels = (0..self.camera.pixel_height()).cartesian_product(0..self.camera.pixel_width());
+    let colors = pixels.map(|(pixel_y, pixel_x)| self.get_pixel_color(pixel_x, pixel_y));
     let image_buffer = colors.flat_map(|rgb| rgb.channels().to_vec());
 
     ImageBuffer::from_vec(self.camera.pixel_width(), self.camera.pixel_height(), image_buffer.collect()).unwrap()
