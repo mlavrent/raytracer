@@ -1,5 +1,5 @@
 use camera::Camera;
-use materials::{diffuse::DiffuseMaterial, specular::ReflectiveMaterial, refractive::RefractiveMaterial};
+use materials::{diffuse::DiffuseMaterial, specular::ReflectiveMaterial, refractive::RefractiveMaterial, emitter::EmitterMaterial};
 use nalgebra::vector;
 use raytracer::scene::Scene;
 use shapes::{sphere::Sphere, rectangle::Rectangle, RenderableShape};
@@ -18,8 +18,9 @@ const GAMMA_CORRECTION: f64 = 2.0;
 fn main() {
   let ground_material = DiffuseMaterial { color: vector![0.4, 0.8, 0.4] };
   let diffuse_material = DiffuseMaterial { color: vector![0.7, 0.2, 0.7] };
-  let mirror_material = ReflectiveMaterial { color: vector![0.0, 1.0, 1.0] };
+  let mirror_material = ReflectiveMaterial { color: vector![1.0, 1.0, 1.0] };
   let glass_material = RefractiveMaterial { refraction_index: 1.5, color: vector![1.0, 1.0, 1.0] };
+  let sun_material = EmitterMaterial { color: vector![1.0, 1.0, 1.0] };
 
   let ground_sphere = RenderableShape {
     shape: &Sphere {
@@ -33,7 +34,7 @@ fn main() {
       center: vector![-2.25, 3.0, 1.0],
       radius: 0.4,
     },
-    material: &diffuse_material,
+    material: &sun_material,
   };
   let left_sphere = RenderableShape {
     shape: &Sphere {

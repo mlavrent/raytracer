@@ -41,7 +41,7 @@ impl<'a> Scene<'a> {
     let nearest_hit = all_hits.min_by(|h1, h2| h1.1.distance_to_hit.total_cmp(&h2.1.distance_to_hit));
 
     match nearest_hit {
-      None => vector![0.4, 0.4, 0.4],
+      None => vector![0.0, 0.0, 0.0],
       Some((object, hit_info)) => {
         let scatter_info = object.material.scatter_ray(ray, &hit_info);
         match scatter_info.scattered_ray {
