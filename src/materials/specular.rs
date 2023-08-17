@@ -4,7 +4,6 @@ use crate::utils::Color;
 
 use super::{Material, ScatterInfo};
 
-
 pub struct ReflectiveMaterial {
   pub color: Color,
 }

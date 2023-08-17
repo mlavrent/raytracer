@@ -21,31 +21,31 @@ fn main() {
   let mirror_material = ReflectiveMaterial { color: vector![0.0, 1.0, 1.0] };
 
   let ground_sphere = RenderableShape {
-    shape: Box::new(Sphere {
+    shape: &Sphere {
       center: vector![0.0, 1.0, -100.5],
       radius: 100.0,
-    }),
+    },
     material: &ground_material,
   };
   let center_sphere = RenderableShape {
-    shape: Box::new(Sphere {
+    shape: &Sphere {
       center: vector![0.0, 1.0, 0.0],
       radius: 0.5,
-    }),
+    },
     material: &diffuse_material,
   };
   let left_sphere = RenderableShape {
-    shape: Box::new(Sphere {
+    shape: &Sphere {
       center: vector![-1.0, 1.0, 0.0],
       radius: 0.5,
-    }),
+    },
     material: &diffuse_material,
   };
   let right_sphere = RenderableShape {
-    shape: Box::new(Sphere {
+    shape: &Sphere {
       center: vector![1.25, 1.0, 0.0],
       radius: 0.5,
-    }),
+    },
     material: &mirror_material,
   };
 

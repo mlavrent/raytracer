@@ -15,6 +15,6 @@ pub struct HitInfo {
 }
 
 pub struct RenderableShape<'a> {
-  pub shape: Box<dyn Hittable>,
-  pub material: &'a dyn Material,
+  pub shape: &'a (dyn Hittable + Sync),
+  pub material: &'a (dyn Material + Sync),
 }
