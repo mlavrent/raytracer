@@ -31,7 +31,7 @@ fn main() {
   };
   let center_sphere = RenderableShape {
     shape: &Sphere {
-      center: vector![-2.1, 1.5, 0.6],
+      center: vector![0.0, 1.0, 0.6],
       radius: 0.4,
     },
     material: &diffuse_material,
