@@ -14,7 +14,7 @@ pub struct ReflectiveMaterial {
 }
 
 impl ReflectiveMaterial {
-  pub fn new(color: Color, fuzz: f64) -> ReflectiveMaterial {
+  pub fn new(color: Color, fuzz: f64) -> Self {
     ReflectiveMaterial {
       color,
       fuzz,

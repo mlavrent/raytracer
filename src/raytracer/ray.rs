@@ -7,7 +7,7 @@ pub struct Ray {
 }
 
 impl Ray {
-  pub fn new(origin: Position, direction: Vector3<f64>) -> Ray {
+  pub fn new(origin: Position, direction: Vector3<f64>) -> Self {
     Ray {
       origin,
       direction: Unit::new_normalize(direction),

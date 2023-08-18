@@ -39,7 +39,7 @@ fn main() {
   let left_sphere = RenderableShape {
     shape: &Sphere {
       center: vector![-1.25, 1.0, 0.0],
-      radius: 0.5,
+      radius: 0.8,
     },
     material: &glass_material,
   };
@@ -52,7 +52,7 @@ fn main() {
   };
 
   let camera = Camera {
-    eye_position: vector![0.0, -2.0, 0.0],
+    eye_position: vector![0.0, -4.0, 0.0],
     viewport: Rectangle {
       top_left: vector![-2.0, 1.0, 1.0],
       top_edge: vector![4.0, 0.0, 0.0],

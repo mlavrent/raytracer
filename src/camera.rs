@@ -14,6 +14,10 @@ pub struct Camera {
 }
 
 impl Camera {
+  pub fn new() -> Self {
+
+  }
+
   pub fn focal_vector(&self) -> Vector3<f64> { self.viewport.center() - self.eye_position }
 
   pub fn focal_length(&self) -> f64 { self.focal_vector().magnitude() }
