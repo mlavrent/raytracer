@@ -1,21 +1,28 @@
 use std::array;
-use std::f64::consts::PI;
 
-use nalgebra::{Vector3, Vector2, vector};
+use nalgebra::{Vector3, Vector2, vector, UnitVector3};
 
 use crate::raytracer::ray::Ray;
-use crate::utils::{Position, rad_to_deg};
+use crate::utils::{Position, rad_to_deg, deg_to_rad};
 use crate::shapes::rectangle::Rectangle;
 
 pub struct Camera {
   pub eye_position: Position,
-  pub viewport: Rectangle,
+  viewport: Rectangle,
   pub pixel_density: f64,
 }
 
 impl Camera {
-  pub fn new() -> Self {
+  pub fn new(position: Position, focal_point: Position, hfov_deg: f64, vfov_deg: f64, up_direction: UnitVector3<f64>, pixel_width: u32) -> Self {
+    let focal_length = (focal_point - position).magnitude();
+    let viewport_width = 2.0 * focal_length * deg_to_rad(hfov_deg / 2.0).tan();
+    let viewport_height = 2.0 * focal_length * deg_to_rad(vfov_deg / 2.0).tan();
 
+    Camera {
+      eye_position: position,
+      viewport: Rectangle { top_left: (), top_edge: (), left_edge: () },
+      pixel_density: (pixel_width as f64) / viewport_width,
+    }
   }
 
   pub fn focal_vector(&self) -> Vector3<f64> { self.viewport.center() - self.eye_position }
