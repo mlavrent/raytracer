@@ -18,8 +18,7 @@ impl Hittable for Sphere {
 
     if discriminant < 0.0 {
       None
-    }
-    else {
+    } else {
       let distance_to_hit_1 = (-b + discriminant.sqrt()) / (2.0 * a);
       let distance_to_hit_2 = (-b - discriminant.sqrt()) / (2.0 * a);
 

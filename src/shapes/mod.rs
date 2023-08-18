@@ -5,6 +5,7 @@ use crate::raytracer::ray::Ray;
 
 pub mod sphere;
 pub mod rectangle;
+pub mod triangle;
 
 pub trait Hittable {
   fn ray_hits(&self, ray: &Ray) -> Option<HitInfo>;

@@ -25,8 +25,7 @@ pub fn gamma_correction(color: Color, gamma: f64) -> Color {
 pub fn average(vecs: &[Vector3<f64>]) -> Option<Vector3<f64>> {
   if vecs.len() == 0 {
     None
-  }
-  else {
+  } else {
     Some(vecs.iter().fold(vector![0.0, 0.0, 0.0], |b, v| b + v) / vecs.len() as f64)
   }
 }

@@ -34,7 +34,7 @@ fn main() {
       center: vector![-1.7, 5.0, 0.6],
       radius: 0.4,
     },
-    material: &diffuse_material,
+    material: &sun_material,
   };
   let left_sphere = RenderableShape {
     shape: &Sphere {
@@ -56,7 +56,7 @@ fn main() {
   let scene = Scene {
     camera,
     objects: vec![center_sphere, ground_sphere, left_sphere, right_sphere],
-    background_color: 0.6 * vector![1.0, 1.0, 1.0],
+    background_color: 0.1 * vector![1.0, 1.0, 1.0],
   };
   let image = scene.render_scene();
   image.save("results.png").expect("Failed to export image.");
