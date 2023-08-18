@@ -11,7 +11,7 @@ mod raytracer;
 mod camera;
 
 // constants that configure the ray tracer
-const NUM_RAYS_PER_PIXEL: usize = 200;
+const NUM_RAYS_PER_PIXEL: usize = 500;
 const MAX_RAY_BOUNCES: usize = 6;
 const GAMMA_CORRECTION: f64 = 2.0;
 
@@ -31,10 +31,10 @@ fn main() {
   };
   let center_sphere = RenderableShape {
     shape: &Sphere {
-      center: vector![0.0, 1.0, 0.6],
+      center: vector![-1.7, 1.0, 0.6],
       radius: 0.4,
     },
-    material: &diffuse_material,
+    material: &sun_material,
   };
   let left_sphere = RenderableShape {
     shape: &Sphere {
@@ -64,7 +64,7 @@ fn main() {
   let scene = Scene {
     camera,
     objects: vec![center_sphere, ground_sphere, left_sphere, right_sphere],
-    background_color: 0.5 * vector![1.0, 1.0, 1.0],
+    background_color: 0.04 * vector![1.0, 1.0, 1.0],
   };
   let image = scene.render_scene();
   image.save("results.png").expect("Failed to export image.");

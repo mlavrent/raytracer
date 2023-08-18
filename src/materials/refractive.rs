@@ -25,9 +25,9 @@ impl RefractiveMaterial {
 impl Material for RefractiveMaterial {
   fn scatter_ray(&self, in_ray: &Ray, hit_info: &HitInfo) -> ScatterInfo {
     let cos_incidence_angle = cos_incidence_angle(in_ray, hit_info);
-    let refraction_ratio = if cos_incidence_angle > 0.0 { self.refraction_index } else { 1.0 / self.refraction_index };
+    let refraction_ratio = if cos_incidence_angle > 0.0 { 1.0 / self.refraction_index } else { self.refraction_index };
 
-    let reflectance = 0.0; // self.reflectance(cosine_incidence_angle, refraction_ratio); TODO: figure this out
+    let reflectance = self.reflectance(cos_incidence_angle, refraction_ratio);
     let scatter_type_distribution = DiscreteDistribution::new([(ScatterType::Reflection, reflectance), (ScatterType::Refraction, 1.0 - reflectance)]);
     let scatter_direction = match scatter_type_distribution.sample(&mut rand::thread_rng()) {
       ScatterType::Reflection => reflection_direction(in_ray.direction.into_inner(), hit_info.hit_normal.direction.into_inner()),
@@ -42,10 +42,14 @@ impl Material for RefractiveMaterial {
 }
 
 pub(super) fn refraction_direction(in_direction: Vector3<f64>, normal: Vector3<f64>, refraction_index: f64) -> Vector3<f64> {
-  let cos_incidence_angle = cos_incidence_angle_vec(in_direction, normal).abs();
+  let cos_incidence_angle = cos_incidence_angle_vec(in_direction, normal);
+
+  let (pos_cos_incidence_angle, pos_normal) =
+    if cos_incidence_angle < 0.0 { (-cos_incidence_angle, -normal) }
+    else { (cos_incidence_angle, normal) };
 
   in_direction * refraction_index
-    + normal * (refraction_index * cos_incidence_angle - (1.0 - refraction_index.powi(2) * (1.0 - cos_incidence_angle.powi(2)).sqrt()))
+    + pos_normal * (refraction_index * pos_cos_incidence_angle - (1.0 - refraction_index.powi(2) * (1.0 - pos_cos_incidence_angle.powi(2)).sqrt()))
 }
 
 #[derive(Clone, Copy)]
