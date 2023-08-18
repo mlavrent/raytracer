@@ -10,8 +10,12 @@ pub struct Rectangle {
 }
 
 impl Rectangle {
-  pub fn new_from_center(center: Position, width: f64, height: f64, up_direction: UnitVector3<f64>) -> Self {
-    todo!()
+  pub fn new_from_center(center: Position, width: f64, height: f64, up_direction: UnitVector3<f64>, right_direction: UnitVector3<f64>) -> Self {
+    let left_edge = -up_direction.into_inner() * height;
+    let top_edge = right_direction.into_inner() * width;
+    let top_left = center - left_edge / 2.0 - top_edge / 2.0;
+
+    Rectangle { top_left, top_edge, left_edge }
   }
 
   pub fn bottom_left(&self) -> Position { self.top_left + self.left_edge }

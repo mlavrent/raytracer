@@ -20,11 +20,12 @@ impl Camera {
     let viewport_height = 2.0 * focal_length * deg_to_rad(vfov_deg / 2.0).tan();
 
     // guarantee the viewport is perpendicular to the focal vector
-    let perp_up_direction = Unit::new_normalize(focal_vector.cross(&up_direction).cross(&focal_vector));
+    let perp_right_dir = Unit::new_normalize(focal_vector.cross(&up_direction));
+    let perp_up_dir = Unit::new_normalize(perp_right_dir.cross(&focal_vector));
 
     Camera {
       eye_position: position,
-      viewport: Rectangle::new_from_center(focal_point, viewport_width, viewport_height, perp_up_direction),
+      viewport: Rectangle::new_from_center(focal_point, viewport_width, viewport_height, perp_up_dir, perp_right_dir),
       pixel_density: (pixel_width as f64) / viewport_width,
     }
   }
