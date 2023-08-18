@@ -19,15 +19,16 @@ fn main() {
   let ground_material = DiffuseMaterial { color: vector![0.46, 0.49, 0.54] };
   let diffuse_material = DiffuseMaterial { color: vector![0.7, 0.2, 0.7] };
   let mirror_material = ReflectiveMaterial::new(vector![1.0, 0.8, 0.8], 0.2);
+  let perfect_mirror = ReflectiveMaterial::new(vector![1.0, 1.0, 1.0], 0.0);
   let glass_material = RefractiveMaterial { refraction_index: 1.5, color: vector![1.0, 1.0, 1.0] };
-  let sun_material = EmitterMaterial { color: 2.0 * vector![1.0, 1.0, 1.0] };
+  let sun_material = EmitterMaterial { color: 1.2 * vector![1.0, 1.0, 1.0] };
 
   let ground_sphere = RenderableShape {
     shape: &Sphere {
       center: vector![0.0, 1.0, -100.5],
       radius: 100.0,
     },
-    material: &ground_material,
+    material: &perfect_mirror,
   };
   let center_sphere = RenderableShape {
     shape: &Sphere {
