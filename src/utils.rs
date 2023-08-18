@@ -1,3 +1,5 @@
+use std::f64::consts::PI;
+
 use image::Rgb;
 use nalgebra::{Vector3, vector, UnitVector3};
 use rand::{distributions::WeightedIndex, prelude::Distribution};
@@ -28,6 +30,11 @@ pub fn average(vecs: &[Vector3<f64>]) -> Option<Vector3<f64>> {
     Some(vecs.iter().fold(vector![0.0, 0.0, 0.0], |b, v| b + v) / vecs.len() as f64)
   }
 }
+
+// ------ Geometry helper functions -------
+pub fn deg_to_rad(rad: f64) -> f64 { rad * 180.0 / PI }
+
+pub fn rad_to_deg(deg: f64) -> f64 { deg * PI / 180.0 }
 
 // ------- Weighted random sampling from discrete set (enum) -------
 pub struct DiscreteDistribution<A, const N: usize> {
