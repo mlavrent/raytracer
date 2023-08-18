@@ -1,6 +1,6 @@
 use std::array;
 
-use nalgebra::{Vector3, Vector2, vector};
+use nalgebra::{Vector3, Vector2, vector, Unit};
 
 use crate::raytracer::ray::Ray;
 use crate::utils::{Position, rad_to_deg, deg_to_rad};
@@ -13,14 +13,18 @@ pub struct Camera {
 }
 
 impl Camera {
-  pub fn new(position: Position, focal_point: Position, hfov_deg: f64, vfov_deg: f64, pixel_width: u32) -> Self {
-    let focal_length = (focal_point - position).magnitude();
+  pub fn new(position: Position, focal_point: Position, hfov_deg: f64, vfov_deg: f64, up_direction: Vector3<f64>, pixel_width: u32) -> Self {
+    let focal_vector = focal_point - position;
+    let focal_length = focal_vector.magnitude();
     let viewport_width = 2.0 * focal_length * deg_to_rad(hfov_deg / 2.0).tan();
     let viewport_height = 2.0 * focal_length * deg_to_rad(vfov_deg / 2.0).tan();
 
+    // guarantee the viewport is perpendicular to the focal vector
+    let perp_up_direction = Unit::new_normalize(focal_vector.cross(&up_direction).cross(&focal_vector));
+
     Camera {
       eye_position: position,
-      viewport: Rectangle { top_left: todo!(), top_edge: todo!(), left_edge: todo!() },
+      viewport: Rectangle::new_from_center(focal_point, viewport_width, viewport_height, perp_up_direction),
       pixel_density: (pixel_width as f64) / viewport_width,
     }
   }

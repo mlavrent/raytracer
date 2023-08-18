@@ -60,7 +60,7 @@ fn main() {
   //   },
   //   pixel_density: 250.0,
   // };
-  let camera = Camera::new(vector![-2.0, -6.0, 3.0], vector![0.0, 1.0, 0.0], 60.0, 35.0, 800);
+  let camera = Camera::new(vector![-2.0, -6.0, 3.0], vector![0.0, 1.0, 0.0], 60.0, 35.0, vector![0.0, 0.0, 1.0], 800);
 
   let scene = Scene {
     camera,

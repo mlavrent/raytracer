@@ -1,5 +1,5 @@
-use nalgebra::{Vector3, Vector2, vector};
-use crate::{utils::Position, raytracer::ray::Ray};
+use nalgebra::{Vector3, Vector2, vector, UnitVector3};
+use crate::utils::Position;
 use super::{Hittable, HitInfo};
 
 
@@ -10,6 +10,10 @@ pub struct Rectangle {
 }
 
 impl Rectangle {
+  pub fn new_from_center(center: Position, width: f64, height: f64, up_direction: UnitVector3<f64>) -> Self {
+    todo!()
+  }
+
   pub fn bottom_left(&self) -> Position { self.top_left + self.left_edge }
 
   pub fn top_right(&self) -> Position { self.top_left + self.top_edge }
