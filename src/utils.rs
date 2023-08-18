@@ -32,9 +32,9 @@ pub fn average(vecs: &[Vector3<f64>]) -> Option<Vector3<f64>> {
 }
 
 // ------ Geometry helper functions -------
-pub fn deg_to_rad(rad: f64) -> f64 { rad * 180.0 / PI }
+pub fn deg_to_rad(rad: f64) -> f64 { rad * PI / 180.0 }
 
-pub fn rad_to_deg(deg: f64) -> f64 { deg * PI / 180.0 }
+pub fn rad_to_deg(deg: f64) -> f64 { deg * 180.0 / PI }
 
 // ------- Weighted random sampling from discrete set (enum) -------
 pub struct DiscreteDistribution<A, const N: usize> {

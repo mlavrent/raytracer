@@ -60,6 +60,7 @@ fn main() {
     },
     pixel_density: 250.0,
   };
+  println!("Field of view | h: {0}; v: {1}", camera.hfov_deg(), camera.vfov_deg());
 
   let scene = Scene {
     camera,

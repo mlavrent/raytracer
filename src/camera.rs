@@ -16,7 +16,7 @@ pub struct Camera {
 impl Camera {
   pub fn focal_vector(&self) -> Vector3<f64> { self.viewport.center() - self.eye_position }
 
-  pub fn focal_distance(&self) -> f64 { self.focal_vector().magnitude() }
+  pub fn focal_length(&self) -> f64 { self.focal_vector().magnitude() }
 
   pub fn viewport_width(&self) -> f64 { self.viewport.top_edge.norm() }
 
@@ -26,9 +26,9 @@ impl Camera {
 
   pub fn pixel_height(&self) -> u32 { (self.viewport_height() * self.pixel_density) as u32 }
 
-  pub fn hfov_rad(&self) -> f64 { 2.0 * (self.viewport_width() / (2.0 * self.focal_distance())).atan() }
+  pub fn hfov_rad(&self) -> f64 { 2.0 * (self.viewport_width() / (2.0 * self.focal_length())).atan() }
 
-  pub fn vfov_rad(&self) -> f64 { 2.0 * (self.viewport_height() / (2.0 * self.focal_distance())).atan() }
+  pub fn vfov_rad(&self) -> f64 { 2.0 * (self.viewport_height() / (2.0 * self.focal_length())).atan() }
 
   pub fn hfov_deg(&self) -> f64 { rad_to_deg(self.hfov_rad()) }
 
