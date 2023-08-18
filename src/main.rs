@@ -51,15 +51,6 @@ fn main() {
     material: &mirror_material,
   };
 
-  // let camera = Camera {
-  //   eye_position: vector![0.0, -4.0, 0.0],
-  //   viewport: Rectangle {
-  //     top_left: vector![-2.0, 1.0, 1.0],
-  //     top_edge: vector![4.0, 0.0, 0.0],
-  //     left_edge: vector![0.0, 0.0, -2.0],
-  //   },
-  //   pixel_density: 250.0,
-  // };
   let camera = Camera::new(vector![-2.0, -6.0, 3.0], vector![0.0, 1.0, 0.0], 60.0, 35.0, vector![0.0, 0.0, 1.0], 800);
 
   let scene = Scene {
