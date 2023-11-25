@@ -16,10 +16,10 @@ const MAX_RAY_BOUNCES: usize = 6;
 const GAMMA_CORRECTION: f64 = 2.0;
 
 fn main() {
-  let ground_material = DiffuseMaterial { color: vector![0.46, 0.49, 0.54] };
+  let ground_material = DiffuseMaterial { color: vector![0.2, 0.5, 0.2] };
   let diffuse_material = DiffuseMaterial { color: vector![0.7, 0.2, 0.7] };
   let mirror_material = ReflectiveMaterial::new(vector![1.0, 0.8, 0.8], 0.2);
-  let glass_material = RefractiveMaterial { refraction_index: 1.33, color: vector![0.5, 1.0, 1.0] };
+  let glass_material = RefractiveMaterial { refraction_index: 1.4, color: vector![0.5, 1.0, 1.0] };
   let sun_material = EmitterMaterial { color: 1.2 * vector![1.0, 1.0, 1.0] };
 
   let ground_sphere = RenderableShape {
